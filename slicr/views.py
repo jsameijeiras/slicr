@@ -6,7 +6,6 @@ import os
 
 def index (request):
     if request.method == 'POST':
-
         data = request.POST.copy()
         firstname = data.get("firstname")
         hello = "POST request"
@@ -14,6 +13,9 @@ def index (request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         filepath = os.path.join(settings.MEDIA_ROOT, filename)
+        outputPath = os.path.join(settings.MEDIA_ROOT, 'output')
+        results = os.system('spleeter separate -i '+filepath+' -p spleeter:2stems -o '+outputPath)
+        print(results)
         return render(request, 'slicr/index.html', {'hello':hello, 'filepath': filepath, 'print_form': False})
     hello = "GET request"
     return render(request, 'slicr/index.html', {'hello':hello, 'print_form': True})
