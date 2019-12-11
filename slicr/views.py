@@ -1,15 +1,8 @@
 from django.shortcuts import render
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 
-def simple_upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'core/simple_upload.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
-    return render(request, 'core/simple_upload.html')
 
+def index (request):
+    hello = "Hello, world esto es un cambio"
+    return render(request, 'slicr/index.html', {'hello':hello})
+# Create your views here.
