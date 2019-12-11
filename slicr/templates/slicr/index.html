@@ -1,1 +1,13 @@
 <h1>NIL SANZ {{ hello }}</h1>
+
+{% if print_form %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        First name:<br>
+        <input type="text" name="firstname"><br>
+        File:<br>
+        <input type="file" name="myfile" />
+        <input type="submit" value="Submit">
+    </form>
+{% else %}
+<p>File path is {{filepath}}</p>
+{% endif %}
