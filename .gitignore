@@ -2,3 +2,4 @@ media/
 pretrained_models/
 env
 *.pyc
+.vscode
