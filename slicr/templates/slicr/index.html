@@ -1,12 +1,31 @@
-<h1>SLICR</h1>
-
-{% if print_form %}
-    <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        
-        Input song:<br>
-        <input type="file" name="song" />
-        <input type="submit" value="Submit">
-    </form>
-{% else %}
-<a href="{{ download_url }}" download><button>Vocals</button></a>
-{% endif %}
+{%load static%}
+<!DOCTYPE html>
+<link rel="stylesheet" href="{% static 'slicr/style.css'%}"/>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slice it!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+    {% if print_form %}
+        <div class="button-wrapper">
+            <span class="label">
+              Upload File
+            </span>
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <input type="file" name="song" id="upload" class="upload-box" placeholder="Upload File">
+                <input type="submit" name="Submit" id="submit" class="upload-box" placeholder="Slice it">
+            </form>   
+          </div>
+    {% else %}
+    <a href="{{ download_url }}" download><button>Vocals</button></a>
+    {% endif %}
+    </div>
+  </section>
+  </body>
+</html>
