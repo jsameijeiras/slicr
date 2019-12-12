@@ -1,0 +1,11 @@
+{% extends "slicr/base.html" %}
+
+{% block content %}
+
+{% for link in download_links %}
+    <div class = "container">
+        <a href="{{ link.url }}" download class="button is-light">{{ link.name }}</a>
+    </div>
+{% endfor %}
+
+{% endblock %}
