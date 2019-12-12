@@ -2,11 +2,12 @@
 
 {% if print_form %}
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        
         Input song:<br>
         <input type="file" name="song" />
         <input type="submit" value="Submit">
     </form>
 {% else %}
-<a href="{{ download_url }}" download><button>Vocals</button></a>
+    {% for link in download_links %}
+      <a href="{{ link.url }}" download><button>{{ link.name }}</button></a>
+    {% endfor %}
 {% endif %}
