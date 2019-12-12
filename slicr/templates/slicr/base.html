@@ -1,6 +1,8 @@
 {% load static bulma_tags %}
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,11 +16,19 @@
 <body>
 
 {% block header %}
-  <div class="container">
-    <nav class="navbar">
-
-    </nav>
-  </div>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-burguer">
+          <a class="navbar-item" href="">
+            <img src="{% static 'slicr/image.png' %}" alt="Slicer" width="112" height="80">
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      </nav>
 {% endblock header %}
 
 {% block hero %}{% endblock hero %}

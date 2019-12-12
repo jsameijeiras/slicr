@@ -1,13 +1,10 @@
-{% extends 'base.html' %}
+{% extends './base.html' %}
 {% block content %}
-<h1>SLICR</h1>
 
 {% if print_form %}
 <div class="container">
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
-
-
-        <div class="file is-centered is-boxed is-success has-name">
+        <div class="file is-centered is-boxed">
             <label class="file-label">
                 <input class="file-input" type="file" name="song">
                 <span class="file-cta">
@@ -18,22 +15,24 @@
                         Choose a file…
                     </span>
                 </span>
-                <span class="file-name">
-
-                </span>
             </label>
         </div>
+        <span >
 
-        <input type="submit" value="Submit" class="button is-primary is-centered ">
 
-        Input song:<br>
-        <input type="file" name="song" />
-        <input type="submit" value="Submit">
+            </span>
+              
+        <div class="container">
+            <button type="submit" value="Submit" class="button is-dark">
+            press to slice!
+        </div>
     </form>
 </div>
 {% else %}
     {% for link in download_links %}
-      <a href="{{ link.url }}" download><button>{{ link.name }}</button></a>
+    <div class = "container">
+      <a href="{{ link.url }}" download class="button is-light">{{ link.name }}</a>
+      </div>
     {% endfor %}
 {% endif %}
 
