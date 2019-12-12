@@ -26,10 +26,15 @@
 
         <input type="submit" value="Submit" class="button is-primary is-centered ">
 
+        Input song:<br>
+        <input type="file" name="song" />
+        <input type="submit" value="Submit">
     </form>
 </div>
 {% else %}
-<a href="{{ download_url }}" download><button>Vocals</button></a>
+    {% for link in download_links %}
+      <a href="{{ link.url }}" download><button>{{ link.name }}</button></a>
+    {% endfor %}
 {% endif %}
 
 {% endblock content %}

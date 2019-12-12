@@ -5,21 +5,50 @@ from django.conf import settings
 import os
 import uuid
 
+def get_song_id():
+    song_id = "%s" % uuid.uuid4()
+    return song_id
+
+def get_output_dir_base_path(song_id):
+    return os.path.join(settings.MEDIA_ROOT, song_id)
+
+def get_output_dir_path(song_id):
+    return os.path.join(get_output_dir_base_path(song_id), song_id)
+
+def get_output_relative_file_paths(song_id):
+    output_path = get_output_dir_path(song_id)
+    files = os.listdir(output_path)
+    relative_file_paths = [os.path.join(song_id, song_id, file) for file in files if file.endswith('.wav')]
+    return relative_file_paths
+
 def index (request):
     if request.method == 'POST':
         data = request.POST.copy()
         song_file = request.FILES['song']
         fs = FileSystemStorage()
         ext = song_file.name.split('.')[-1]
-        song_id = "%s" % uuid.uuid4()
+        song_id = get_song_id()
+        print('Processing song id '+song_id)
         filename = "%s.%s" % (song_id, ext)
-        final_filename = fs.save(filename, song_file)
-        filepath = os.path.join(settings.MEDIA_ROOT, filename)
+        fs.save(filename, song_file)
+        input_file_path = os.path.join(settings.MEDIA_ROOT, filename)
+        print('Input file path: '+input_file_path)
         dir_name = "%s" % (song_id)
-        outputPath = os.path.join(settings.MEDIA_ROOT, dir_name)
-        results = os.system('spleeter separate -i '+filepath+' -p spleeter:4stems -o '+outputPath)
-        download_url = fs.url(os.path.join(dir_name, song_id, 'vocals.wav')) # spleeter will generate a dir called as the input filename
-        print(download_url)
-        return render(request, 'slicr/index.html', {'print_form': False, "download_url": download_url})
+        output_dir_base_path = get_output_dir_base_path(song_id)
+        cmd = 'spleeter separate -i '+input_file_path+' -p spleeter:4stems -o '+output_dir_base_path
+        print('Running command: '+cmd)
+        os.system(cmd)
+        download_links = [{
+            'url': fs.url(output_relative_file_path),
+            'name': output_relative_file_path.split('/')[-1]
+         } for output_relative_file_path in get_output_relative_file_paths(song_id)]
+        return render(
+            request,
+            'slicr/index.html',
+            {
+                'print_form': False,
+                'download_links': download_links
+            }
+        )
     return render(request, 'slicr/index.html', {'print_form': True})
 # Create your views here.
